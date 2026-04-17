@@ -96,13 +96,8 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Start dev server
-        run: npm run dev &
-        env:
-          NODE_ENV: test
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
 
-      - name: Wait for dev server
-        run: npx wait-on http://localhost:5173
-
-      - name: Run Playwright E2E tests
+      - name: Run Playwright E2E tests (auto webServer)
         run: npx playwright test
