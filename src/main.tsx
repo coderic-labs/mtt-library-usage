@@ -3,7 +3,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { ClientSideTableDemo } from './demoComponents';
+import { ClientSideTableDemo } from './demoComponents/clientSide';
 
 const theme = createTheme({
   palette: {
