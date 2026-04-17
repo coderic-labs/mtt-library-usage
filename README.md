@@ -1,63 +1,57 @@
-# React + TypeScript + Vite
+# mtt-library-usage
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is for testing the usage of the `@coderic-labs/mui-tanstack-table` library across a matrix of peer dependency versions. It ensures compatibility with multiple versions of React, MUI, TanStack Table, Emotion, and React Intl using Playwright E2E tests.
 
-Currently, two official plugins are available:
+## Purpose
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Validate that `@coderic-labs/mui-tanstack-table` works with a wide range of peer dependency versions.
+- Run E2E tests for each combination in CI using GitHub Actions matrix.
+- Quickly reproduce and debug integration issues with real dependency sets.
 
-## React Compiler
+## How It Works
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- The GitHub Actions workflow installs each matrix combination and runs Playwright E2E tests against a Vite dev server.
+- The matrix covers all valid combinations of React, MUI, X-Date-Pickers, TanStack Table, Emotion, and React Intl within supported version ranges.
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Tested Version Matrix
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+| React   | MUI    | X-Pickers | Tanstack | Emotion React | Emotion Styled | React Intl |
+|---------|--------|-----------|----------|---------------|---------------|------------|
+| 18.3.1  | 6.5.0  | 7.23.6    | 8.21.2   | 11.14.0       | 11.14.0       | 7.1.10     |
+| 18.3.1  | 6.5.0  | 7.23.6    | 8.21.2   | 11.13.5       | 11.13.5       | 7.1.10     |
+| 18.3.1  | 7.3.10 | 7.29.4    | 8.21.3   | 11.14.0       | 11.14.0       | 7.1.14     |
+| 19.2.5  | 6.5.0  | 7.23.6    | 8.21.2   | 11.14.0       | 11.14.0       | 7.1.10     |
+| 19.2.5  | 7.3.10 | 7.29.4    | 8.21.3   | 11.14.0       | 11.14.0       | 7.1.14     |
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Local Development
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+1. Install dependencies and browsers:
+   ```sh
+   npm install
+   npx playwright install
+   ```
+2. Run all E2E tests (headless):
+   ```sh
+   npm run test
+   ```
+3. Run tests in headed mode (see browser):
+   ```sh
+   npm run test:headed
+   ```
+4. Run tests in debug mode:
+   ```sh
+   npm run test:debug
+   ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## CI
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- The GitHub Actions workflow will automatically test all matrix combinations on each push or workflow dispatch.
+- Only valid dependency combinations are tested (see table above).
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
+---
+
+For more details, see `.github/workflows/peerdeps-matrix.yml`.
       // Enable lint rules for React DOM
       reactDom.configs.recommended,
     ],
