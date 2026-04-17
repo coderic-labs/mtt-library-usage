@@ -1,0 +1,22 @@
+import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { ClientSideTableDemo } from './demoComponents/clientSide';
+
+const theme = createTheme({
+  palette: {
+    mode: 'light',
+    primary: { main: '#1976D2' },
+  },
+});
+
+export const App = () => {
+  return (
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <ClientSideTableDemo />
+      </ThemeProvider>
+    </LocalizationProvider>
+  );
+};
